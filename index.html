@@ -10,7 +10,7 @@
 
   <main class="container">
     <h1>GIWA Trust Layer</h1>
-    <p>একটা wallet address দিন, দেখুন সেটার credential আছে কিনা।</p>
+    <p class="subtitle">Enter a wallet address to see its balance, verified credentials, and trust score on GIWA Sepolia testnet.</p>
 
     <div class="search-box">
       <input id="addressInput" type="text" placeholder="0x1234... wallet address" />
@@ -19,10 +19,54 @@
 
     <button id="connectBtn" class="connect-btn">🦊 Connect Wallet</button>
 
-    <div id="output"></div>
+    <div id="output" class="hidden">
+
+      <!-- Identity summary: address, up.id name, verified badge, QR code -->
+      <section class="card">
+        <div class="identity-row">
+          <div>
+            <p class="label">Address</p>
+            <p id="addressText" class="mono"></p>
+            <p class="label">up.id name</p>
+            <p id="upIdName">—</p>
+          </div>
+          <img id="qrCode" class="qr" alt="QR code for this profile" />
+        </div>
+        <span id="verifiedBadge" class="badge hidden">✅ Verified</span>
+      </section>
+
+      <!-- Balance -->
+      <section class="card">
+        <p class="label">ETH Balance (GIWA Sepolia)</p>
+        <p id="balanceText" class="big"></p>
+      </section>
+
+      <!-- Trust score -->
+      <section class="card">
+        <p class="label">Trust Score</p>
+        <p id="scoreText" class="big"></p>
+      </section>
+
+      <!-- Credentials -->
+      <section class="card">
+        <p class="label">Credentials</p>
+        <ul id="credentialList"></ul>
+        <p id="noCredentials" class="muted hidden">No credentials found for this address yet.</p>
+      </section>
+
+      <!-- Transaction history -->
+      <section class="card">
+        <p class="label">Recent Transactions</p>
+        <ul id="txList"></ul>
+        <p id="noTx" class="muted hidden">No recent transactions found.</p>
+      </section>
+
+    </div>
+
+    <p id="statusText" class="status"></p>
   </main>
 
-  <!-- ethers.js লাইব্রেরি, CDN থেকে সরাসরি লোড হবে, npm install লাগবে না -->
+  <!-- ethers.js loaded via CDN — no npm install / build step needed -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
   <script src="config.js"></script>
   <script src="script.js"></script>
