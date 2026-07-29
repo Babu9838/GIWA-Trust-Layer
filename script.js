@@ -30,6 +30,31 @@ async function checkAddress(address) {
   }
 }
 
+// "Connect Wallet" বাটনে ক্লিক করলে ব্রাউজারে ইনস্টল করা wallet (MetaMask, Brave Wallet ইত্যাদি)
+// থেকে ইউজারের address চেয়ে নেওয়া হয়, তারপর সেটা দিয়ে অটোমেটিক checkAddress() চালানো হয়।
+async function connectWallet() {
+  const output = document.getElementById("output");
+
+  // window.ethereum তখনই থাকে যখন ব্রাউজারে কোনো wallet extension ইনস্টল করা থাকে
+  if (typeof window.ethereum === "undefined") {
+    output.textContent = "❌ কোনো wallet extension পাওয়া যায়নি। MetaMask বা Brave Wallet ইনস্টল করুন।";
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+    const address = accounts[0];
+
+    document.getElementById("addressInput").value = address;
+    checkAddress(address);
+  } catch (err) {
+    console.error(err);
+    output.textContent = "wallet connect করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।";
+  }
+}
+
+document.getElementById("connectBtn").addEventListener("click", connectWallet);
+
 document.getElementById("searchBtn").addEventListener("click", () => {
   const address = document.getElementById("addressInput").value.trim();
   checkAddress(address);
