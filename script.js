@@ -1,0 +1,42 @@
+// এই ভার্সনটা সবচেয়ে সহজ কাজ করে দেখায়:
+// একটা wallet address দিলে GIWA Sepolia টেস্টনেট থেকে তার ETH ব্যালেন্স দেখাবে।
+//
+// পরে যখন আপনার নিজের "credential" স্মার্ট কন্ট্রাক্ট (Dojang-এর মতো) ডিপ্লয় হবে,
+// তখন এই একই ফাইলের মধ্যে সেই কন্ট্রাক্ট থেকে ডেটা পড়ার কোড যোগ করবেন।
+// আপাতত শুধু চেইনের সাথে সংযোগ কাজ করছে কিনা সেটা যাচাই করাই লক্ষ্য।
+
+async function checkAddress(address) {
+  const output = document.getElementById("output");
+
+  if (!ethers.isAddress(address)) {
+    output.textContent = "❌ সঠিক wallet address দিন (0x দিয়ে শুরু, ৪২ ক্যারেক্টার)।";
+    return;
+  }
+
+  output.textContent = "⏳ চেইন থেকে তথ্য আনা হচ্ছে...";
+
+  try {
+    const provider = new ethers.JsonRpcProvider(CONFIG.RPC_URL);
+    const balance = await provider.getBalance(address);
+    const balanceInEth = ethers.formatEther(balance);
+
+    output.innerHTML = `
+      <p><strong>Address:</strong> ${address}</p>
+      <p><strong>ETH Balance (GIWA Sepolia):</strong> ${balanceInEth} ETH</p>
+    `;
+  } catch (err) {
+    console.error(err);
+    output.textContent = "কিছু একটা সমস্যা হয়েছে, browser console চেক করুন।";
+  }
+}
+
+document.getElementById("searchBtn").addEventListener("click", () => {
+  const address = document.getElementById("addressInput").value.trim();
+  checkAddress(address);
+});
+
+document.getElementById("addressInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    document.getElementById("searchBtn").click();
+  }
+});
