@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GIWA Trust Layer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="container">
+    <h1>GIWA Trust Layer</h1>
+    <p>একটা wallet address দিন, দেখুন সেটার credential আছে কিনা।</p>
+
+    <div class="search-box">
+      <input id="addressInput" type="text" placeholder="0x1234... wallet address" />
+      <button id="searchBtn">Check</button>
+    </div>
+
+    <div id="output"></div>
+  </main>
+
+  <!-- ethers.js লাইব্রেরি, CDN থেকে সরাসরি লোড হবে, npm install লাগবে না -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
